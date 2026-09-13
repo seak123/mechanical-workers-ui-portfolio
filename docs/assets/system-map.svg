@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="584" viewBox="0 0 1120 584" role="img" aria-labelledby="title desc">
+  <title id="title">Mechanical workers: authoring, execution and readable feedback</title>
+  <desc id="desc">Conceptual diagram. Actor and ability setup plus status configuration feed a work presentation layer and world-space UI. Management requests go through authoritative work state. Diagnostics inspect the same worker across layers.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#64dbc1"/></marker></defs>
+  <rect width="1120" height="584" rx="18" fill="#111d2b"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="36" y="47" fill="#eef5fc" font-size="27" font-weight="700">Mechanical workers: one feature, connected responsibilities</text>
+    <text x="36" y="76" fill="#aabdd2" font-size="16">Conceptual architecture · portable sample contracts, not a game capture</text>
+    <text x="36" y="117" fill="#64dbc1" font-size="14" letter-spacing="2">AUTHORING</text>
+    <g fill="#1d3146" stroke="#39546f">
+      <rect x="36" y="134" width="326" height="103" rx="10"/>
+      <rect x="396" y="134" width="326" height="103" rx="10"/>
+      <rect x="756" y="134" width="328" height="103" rx="10"/>
+    </g>
+    <g fill="#eef5fc" font-size="21" font-weight="600">
+      <text x="54" y="167">Creature Actor + work abilities</text>
+      <text x="414" y="167">Work parameters</text>
+      <text x="774" y="167">Head-status configuration</text>
+    </g>
+    <g fill="#bed0e2" font-size="16">
+      <text x="54" y="195">Receive · move · perform · interrupt</text>
+      <text x="54" y="220">Content-specific behaviour</text>
+      <text x="414" y="195">Targets · intervals · effects</text>
+      <text x="414" y="220">Shared contract, distinct work types</text>
+      <text x="774" y="195">Text · icons · animations · priority</text>
+      <text x="774" y="220">Status AND changing payload</text>
+    </g>
+    <text x="36" y="282" fill="#64dbc1" font-size="14" letter-spacing="2">RUNTIME</text>
+    <g fill="#1d3146" stroke="#39546f">
+      <rect x="36" y="302" width="326" height="129" rx="10"/>
+      <rect x="396" y="302" width="326" height="129" rx="10"/>
+      <rect x="756" y="302" width="328" height="129" rx="10"/>
+    </g>
+    <g fill="#eef5fc" font-size="21" font-weight="600">
+      <text x="54" y="335">Authoritative work state</text>
+      <text x="414" y="335">Work / presentation bridge</text>
+      <text x="774" y="335">Player-facing feedback</text>
+    </g>
+    <g fill="#bed0e2" font-size="16">
+      <text x="54" y="364">Assignment · phase · blocker</text>
+      <text x="54" y="389">Management UI sends requests</text>
+      <text x="54" y="414">Scheduling remains outside widgets</text>
+      <text x="414" y="364">Apply current job before visuals</text>
+      <text x="414" y="389">Retarget without a false new job</text>
+      <text x="414" y="414">Keep item presentation current</text>
+      <text x="774" y="364">World-space text and bubbles</text>
+      <text x="774" y="389">Management-panel state</text>
+      <text x="774" y="414">Current work, not animation guesses</text>
+    </g>
+    <g fill="none" stroke="#64dbc1" stroke-width="2" marker-end="url(#arrow)">
+      <path d="M363 365 H389"/><path d="M723 365 H749"/>
+      <path d="M559 238 V294"/><path d="M920 238 V294"/>
+      <path d="M199 238 V260 H480 V294"/>
+    </g>
+    <rect x="36" y="469" width="1048" height="77" rx="10" fill="#153b3b" stroke="#36766c"/>
+    <text x="54" y="501" fill="#a2f3df" font-size="21" font-weight="600">Inspect the same worker across the whole chain</text>
+    <text x="54" y="528" fill="#c6e7e2" font-size="16">Assigned target · actual movement · work state · visible payload · competing head statuses</text>
+  </g>
+</svg>
