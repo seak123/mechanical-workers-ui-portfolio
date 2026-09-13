@@ -6,6 +6,10 @@
 
 **目标：**新增机械兽时，把行为与反馈一起配置，而不是玩法完成以后再零散补 UI。
 
+Original editor screenshots are unavailable. This page describes the authoring workflow; the [gameplay gallery](../media/README.md) shows its player-facing context. The executable profile example below is a newly written reference, not a screenshot or export of the original editor.
+
+原编辑器截图已无法取得。本页保留配置流程说明，[游戏画面](../media/README.md)展示其面向玩家的应用场景。下方可执行配置示例为重新编写的参考实现，不伪装成原编辑器截图或导出内容。
+
 ## 1. Establish the creature / 建立机械兽实体
 
 In the production workflow, a creature Actor Blueprint provides the content-specific entity. It must connect to the appropriate work receiver, controller and presentation components.

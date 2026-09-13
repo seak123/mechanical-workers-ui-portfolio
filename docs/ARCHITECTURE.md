@@ -2,6 +2,8 @@
 
 [Overview](../README.md) · [Stories](CASE_STUDIES.md)
 
+![Conceptual relationship between authoring, work execution and player feedback](assets/system-map.svg)
+
 ## Production architecture / 实际系统分层
 
 The original system has several distinct responsibilities:

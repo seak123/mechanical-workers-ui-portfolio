@@ -6,7 +6,9 @@ A gameplay/UI engineering case study by **Evan Ge**. Mechanical creatures can be
 
 [中文](README.zh-CN.md) · [Case studies](docs/CASE_STUDIES.md) · [Authoring journey](docs/AUTHORING.md) · [Architecture & code tour](docs/ARCHITECTURE.md) · [Visuals](media/README.md) · [Run & test](docs/TESTING.md)
 
-![Conceptual authoring and runtime flow, not a game screenshot](docs/assets/system-map.svg)
+![Mechanical workers beside furnaces, with overhead work-phase labels](media/screenshots/world-work-phases.png)
+
+*World-space labels distinguish a worker tending a furnace from one moving to fire-tending work.* Still from [ENFANT TERRIBLE's public gameplay video](https://www.youtube.com/watch?v=QLgoOZu9biw). [View all four screenshots with English captions](media/README.md).
 
 ## My work in context
 
@@ -46,7 +48,7 @@ The code is a **new, portable reference implementation** written for this case s
 
 ## Visual material
 
-Gameplay captures have not been added yet. The [visual plan](media/README.md) identifies the exact shots and English captions needed. Diagrams and console traces are labelled explanatory material, not evidence of an in-game transition.
+The [screenshot gallery](media/README.md) covers the production roster, overhead work phases, a paused facility and an item-specific transport bubble. These are separate stills from third-party footage, not a continuous interaction recording. Original editor captures are unavailable; the [authoring journey](docs/AUTHORING.md) is explained through the configuration workflow and labelled reference code.
 
 ## Related case studies
 

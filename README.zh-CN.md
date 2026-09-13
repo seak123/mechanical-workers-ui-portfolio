@@ -6,7 +6,9 @@ Evan Ge 的玩法与 UI 工程案例。玩家可以安排机械兽采集、搬�
 
 [English](README.md) · [实际案例](docs/CASE_STUDIES.md) · [配置工作流](docs/AUTHORING.md) · [架构与代码导读](docs/ARCHITECTURE.md) · [画面素材](media/README.md) · [运行与测试](docs/TESTING.md)
 
-![配置与运行时的概念关系图，并非游戏截图](docs/assets/system-map.svg)
+![机械兽在炉子旁工作，头顶显示不同工作阶段](media/screenshots/world-work-phases.png)
+
+*世界空间状态文字区分正在控火的机械兽和移动前往控火工作的机械兽。*截图来自 [ENFANT TERRIBLE 的公开游戏视频](https://www.youtube.com/watch?v=QLgoOZu9biw)。[查看四张截图及英文图注](media/README.md)。
 
 ## 我的工作背景
 
@@ -46,6 +48,6 @@ Evan Ge 的玩法与 UI 工程案例。玩家可以安排机械兽采集、搬�
 
 ## 展示素材
 
-暂未加入实际游戏截图。[素材计划](media/README.md)列出了需要补充的镜头和英文图注。当前关系图与终端输出均为说明性材料，不作为游戏交互过程的实录。
+[截图展示](media/README.md)覆盖生产编队、头顶工作阶段、设施生产暂停和搬运物品气泡。这些是第三方视频中的独立静帧，不作为连续操作录像。原编辑器截图已无法取得；[配置工作流](docs/AUTHORING.md)通过流程说明与明确标注的参考代码呈现。
 
 [建造与物件交互 UI](https://github.com/seak123/building-ui-portfolio) · [组队、匹配与支援 UI](https://github.com/seak123/multiplayer-ui-portfolio)
