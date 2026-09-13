@@ -1,55 +1,55 @@
-# Mechanical Workers — Gameplay, World-space UI & Authoring
+# Mechanical workers: from production jobs to readable feedback
 
-**Making autonomous production readable, configurable and reliable.**
+**Evan (Yaxin) Ge · C++ / Lua / UMG · Past ProjectZ development work**
 
-A gameplay/UI engineering case study by **Evan Ge**. Mechanical creatures can be assigned to gather, transport, craft and maintain a player's base. Their work is automatic; the interface must explain what they are doing, what is blocking them, and what the player can change.
+Mechanical creatures gather, transport, craft and maintain the player's base automatically. The engineering challenge was connecting their work to behaviour, world-space status and content configuration, so players could understand both progress and interruption.
 
-[中文](README.zh-CN.md) · [Case studies](docs/CASE_STUDIES.md) · [Authoring journey](docs/AUTHORING.md) · [Architecture & code tour](docs/ARCHITECTURE.md) · [Visuals](media/README.md) · [Run & test](docs/TESTING.md)
+I developed and maintained the production-to-behaviour integration, including job transitions, changing destinations and carried-item presentation. My work also included associated UI integration and iteration, and contributing to the worker-configuration workflow. The wider production system and shared head-UI infrastructure were developed collaboratively.
+
+[中文 README](README.zh-CN.md) · [Case study](docs/CASE_STUDIES.md) · [Authoring decisions](docs/AUTHORING.md) · [Code tour](docs/CODE_TOUR.md) · [Architecture](docs/ARCHITECTURE.md) · [Visuals](media/README.md) · [Verification](docs/TESTING.md)
+
+## How to read this case
+
+This is a retrospective of specific work on ProjectZ, not a proposal for a new feature. The main account follows actual implementation behaviour and verified interface relationships. The [source-grounded code tour](docs/CODE_TOUR.md) retains relevant interface names and explains their connections; implementation bodies and project assets are omitted.
+
+The existing portable code is separately written **reference material**, collected in the [reference appendix](docs/REFERENCE_APPENDIX.md). It is not original game code, and its tests are not historical validation results. Documentation is in English, with one Chinese README.
+
+## Three engineering decisions
+
+**1. Translate work state before triggering behaviour.**
+
+A movement phase is not automatically a new job. The production-line component builds a job description from current worker data, coordinates previous/current work and handles destination changes through a defined restart path. It uses work types and transition state, not the assignment-ID/revision scheme in the portable reference. [Actual work and trade-offs](docs/CASE_STUDIES.md#one-assignment-many-phases).
+
+**2. Keep state meaning and item payload consistent across views.**
+
+A blocker must not silently become idle behaviour, and a carried object must refresh after the new job data is applied. Head text and bubbles also have their own state arbitration and payload checks. “Transporting” can remain true while the item being transported changes. [Consistency story](docs/CASE_STUDIES.md#state-and-payload-consistency).
+
+**3. Share the status framework, specialise the configured content.**
+
+The production workflow connects creature Actor Blueprints, work abilities and configurable feedback. The shared head-UI base maps AI state, tags and interruption reasons into UI states; separate text and bubble widgets select their own configured presentation. This supports variation without embedding every creature's content into the base widget. [Authoring workflow and actual configuration fields](docs/AUTHORING.md).
+
+## The player experience
+
+Assign workers in the management interface, then read their current work and item context in the world. Facility production overlays provide a related but separate view of production.
 
 ![Mechanical workers beside furnaces, with overhead work-phase labels](media/screenshots/world-work-phases.png)
 
-*World-space labels distinguish a worker tending a furnace from one moving to fire-tending work.* Still from [ENFANT TERRIBLE's public gameplay video](https://www.youtube.com/watch?v=QLgoOZu9biw). [View all four screenshots with English captions](media/README.md).
+**Focus on the labels above the creatures.** One is tending a furnace; another is moving to fire-tending work. These are creature states, distinct from the facility markers.
 
-## My work in context
+Still from [ENFANT TERRIBLE's public gameplay video](https://www.youtube.com/watch?v=QLgoOZu9biw). [Four screenshots with English captions and label translations](media/README.md). The stills show separate states, not a continuous interaction recording or a before/after bug fix.
 
-I developed and maintained the integration between production jobs and creature behaviour: receiving work, transitioning between movement and performance, handling changing targets and interruptions, and keeping carried-item presentation consistent. My work also included associated UI integration and iteration, and contributing to the worker-configuration workflow. The wider production system and shared UI infrastructure were developed collaboratively.
+## Read the implementation in ten minutes
 
-The original feature used **C++, Lua, Gameplay Abilities, Actor Blueprints and world-space UMG widgets**.
+1. [Production-state integration](docs/CODE_TOUR.md#1-production-state-to-current-job): `UPzProductLineComponent`, job data and transition ordering.
+2. [Movement and retargeting](docs/CODE_TOUR.md#2-movement-and-retargeting): `UBTT_ProductLineMoveTo` and the destination-change path.
+3. [Head-UI state and lifecycle](docs/CODE_TOUR.md#3-head-ui-state-and-lifecycle): `UPzHeadMachineStatusWidgetBase`, initial reconstruction and event cleanup.
+4. [Text and bubble specialisation](docs/CODE_TOUR.md#4-text-and-bubble-specialisation): configuration, priority and changing item payload.
+5. [Diagnostics](docs/CASE_STUDIES.md#observe-before-guessing): compare the assigned destination, movement state and visible behaviour.
 
-## Three engineering stories
+## Scope and verification
 
-### 1. One work cycle, several visible states
+The tour describes the actual source relationships without publishing implementation bodies. It is not a complete game module. Original editor captures are unavailable; the authoring chapter uses verified configuration fields and the development workflow, not fabricated editor images.
 
-Picking up an item, travelling to a destination and delivering it are phases of one assignment—not three new jobs. I worked on consolidating how work data drives the current job and its cues, including retargeting while a job is already in progress.
+The [reference appendix](docs/REFERENCE_APPENDIX.md) contains a portable model and independently written tests. No device-performance numbers, rendering gains or full Unreal integration results are claimed. Game visuals remain subject to their respective rights.
 
-**Why it matters:** predictable transitions, fewer contradictory cues, and a clearer place to add new work types. [Read the story](docs/CASE_STUDIES.md#one-assignment-many-phases)
-
-### 2. The creature and its UI must tell the same story
-
-An energy-related failure could be mapped to idle behaviour; a carried object could be refreshed before the new job data was applied. These issues crossed gameplay state, presentation and UI feedback. The fixes depended on state meaning and update ordering, not just changing a widget.
-
-**Why it matters:** the player can distinguish waiting, working and needing intervention. [Read the story](docs/CASE_STUDIES.md#state-and-payload-consistency)
-
-### 3. Author content; inspect the state behind it
-
-The authoring workflow connects a creature Actor Blueprint, its work abilities, and state-dependent text, icons and animations. Configurable head-status channels and targeted debug controls make combinations inspectable without reproducing an entire production setup.
-
-**Why it matters:** designers, artists and engineers can iterate against an explicit contract. [Explore the workflow](docs/AUTHORING.md)
-
-## Read the code in ten minutes
-
-- [WorkModel](Source/Workers/WorkModel.cpp): assignment identity, phase transitions and commit-before-notify ordering.
-- [HeadPresenter](Source/Workers/HeadPresenter.cpp): independent text/bubble priorities and same-state payload refresh.
-- [WorkerPanel.lua](Content/Lua/WorkerPanel.lua): management-panel lifecycle, contextual feedback and authoritative requests.
-- [AuthoringProfile.lua](Content/Lua/AuthoringProfile.lua): a standalone configuration validator and dry-run integration plan.
-- [Contract tests](tests/worker_tests.cpp) and [Lua tests](tests/lua_tests.lua): executable edge cases.
-
-The code is a **new, portable reference implementation** written for this case study, not commercial source or a runnable game build. It makes selected contracts testable; it does not include the production scheduler, Unreal assets or engine integration. The docs distinguish production lessons from additional safeguards introduced in this sample.
-
-## Visual material
-
-The [screenshot gallery](media/README.md) covers the production roster, overhead work phases, a paused facility and an item-specific transport bubble. These are separate stills from third-party footage, not a continuous interaction recording. Original editor captures are unavailable; the [authoring journey](docs/AUTHORING.md) is explained through the configuration workflow and labelled reference code.
-
-## Related case studies
-
-[Building & interactable UI](https://github.com/seak123/building-ui-portfolio) · [Multiplayer, teams & support UI](https://github.com/seak123/multiplayer-ui-portfolio)
+**Related cases:** [Building & interactable UI](https://github.com/seak123/building-ui-portfolio) · [Multiplayer, teams & support UI](https://github.com/seak123/multiplayer-ui-portfolio).
