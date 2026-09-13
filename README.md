@@ -6,7 +6,7 @@ Mechanical creatures gather, transport, craft and maintain the player's base aut
 
 I developed and maintained the production-to-behaviour integration, including job transitions, changing destinations and carried-item presentation. My work also included associated UI integration and iteration, and contributing to the worker-configuration workflow. The wider production system and shared head-UI infrastructure were developed collaboratively.
 
-[中文 README](README.zh-CN.md) · [Case study](docs/CASE_STUDIES.md) · [Authoring decisions](docs/AUTHORING.md) · [Code tour](docs/CODE_TOUR.md) · [Architecture](docs/ARCHITECTURE.md) · [Visuals](media/README.md) · [Verification](docs/TESTING.md)
+[中文 README](README.zh-CN.md) · [Case study](docs/CASE_STUDIES.md) · [Decisions](docs/DECISIONS.md) · [Authoring](docs/AUTHORING.md) · [Code tour](docs/CODE_TOUR.md) · [Architecture](docs/ARCHITECTURE.md) · [Visuals](media/README.md) · [Verification](docs/TESTING.md)
 
 ## How to read this case
 
@@ -24,9 +24,9 @@ A movement phase is not automatically a new job. The production-line component b
 
 A blocker must not silently become idle behaviour, and a carried object must refresh after the new job data is applied. Head text and bubbles also have their own state arbitration and payload checks. “Transporting” can remain true while the item being transported changes. [Consistency story](docs/CASE_STUDIES.md#state-and-payload-consistency).
 
-**3. Share the status framework, specialise the configured content.**
+**3. Reuse the behaviour contract; drive feedback with state and data.**
 
-The production workflow connects creature Actor Blueprints, work abilities and configurable feedback. The shared head-UI base maps AI state, tags and interruption reasons into UI states; separate text and bubble widgets select their own configured presentation. This supports variation without embedding every creature's content into the base widget. [Authoring workflow and actual configuration fields](docs/AUTHORING.md).
+Workers shared a base behaviour-tree workflow, with established job differences expressed through task parameters, abilities and content. My approach was to let behaviour signals drive predictable head feedback: for ability-led cues, Task → GA → status tags → UI state. The UI selects a configured presentation and fills it with current work data, rather than requiring a different interface for every job. AI-state and interruption mappings remain complementary inputs. [My reasoning and actual implementation boundaries](docs/DECISIONS.md) · [Authoring fields](docs/AUTHORING.md).
 
 ## The player experience
 

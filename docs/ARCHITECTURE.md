@@ -14,6 +14,12 @@ The production system maintains work and worker data. The behaviour integration 
 
 The production-line component is not the sole input to all head UI. Both behaviour and UI use worker-component data; gameplay tags provide another connection. A visual animation completing is not proof of authoritative production completion.
 
+## Behaviour signals and presentation ownership
+
+The shared-base behaviour-tree workflow provides an agreed contract for the established work families. My design reasoning was to connect that contract to head feedback through semantic state rather than per-job widget logic. For ability-led cues, the route is Task → GA → status tags → UI-state mapping; the job payload remains a separate input to visible content.
+
+`UPzMachineMonsterWidget` binds the text and tips children. Their state/configuration chooses presentation and fills content; the task does not own or directly create these widgets. Other AI-state, interruption and emote-tag routes remain valid inputs. [Decision rationale](DECISIONS.md).
+
 ## Data and lifecycle boundaries
 
 ### Work type is not every movement phase

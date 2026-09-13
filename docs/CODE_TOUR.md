@@ -35,6 +35,16 @@ Within the component, `OnDestinationChanged` aborts busy work, updates the remem
 
 Receive/finish animation flags are queried and reset through the `NeedPlay*JobAnim` and `ResetNeedPlay*JobAnim` interfaces. Content-specific ability implementations are not reproduced here.
 
+### Task, ability and status-tag bridge
+
+The project's generic `UBTTask_ActivateAbility`, in `Source/ProjectZ/GameLogic/AI/Tasks/BTTask_ActivateAbility`, exposes `AbilityTagContainer`. Its `ExecuteTask` calls `TryActivateAbilitiesByTag`; these are ability-selection tags, not automatically the status tags displayed by the UI.
+
+`UPzGameplayAbility`, in `Source/ProjectZ/GameLogic/Abilities/PzGameplayAbility`, exposes `bSyncTagToClient`. Its `UpdateClientTagOnActive` / `UpdateClientTagOnEnd` helpers update the minimal-replication tag state for `ActivationOwnedTags` when the option and active-state conditions permit. This establishes a supported ability-status route, not evidence that every work GA uses the same tag configuration.
+
+The shared head base registers a generic gameplay-tag event. `OnTagCountChanged` looks up `EditorTagData` and adds or removes the corresponding UI state. This is the receiving end of the ability-driven route described in the [decision story](DECISIONS.md).
+
+There is also a verified direct emote route: `UBTT_PalPlayEmote::ExecuteTask` calls `UPzProductLineComponent::PlayEmote`, whose client-side implementation can add a loose emote tag when bubble emotes are enabled. Not every task-driven cue passes through a GA.
+
 ## 3. Head UI state and lifecycle
 
 Module: `Source/ProjectZ/GameLogic/UI/Head/Machine/WidgetBase/PzHeadMachineStatusWidgetBase`.
@@ -61,6 +71,8 @@ The base checks payload changes; it does not compute production progress.
 ## 4. Text and bubble specialisation
 
 Modules: `PzHeadMachineTextStatus` and `PzHeadMachineTipsStatus`, under `Source/ProjectZ/GameLogic/UI/Head/Machine`.
+
+The parent `UPzMachineMonsterWidget` binds `TextStatus` and `TipsStatus` children and initialises them with the creature. This is why task-driven presentation should not be described as a task directly creating a new Widget class. In the tips implementation, `RefreshStyle` selects a `StateSwitcher` mode from `EditorData[Status].ShowType`, then resolves the applicable content.
 
 **Text:** `FMachineHeadTextStatusData` contains `StatusText`, `StatusTextFont`, `StatusAnim` and `Priority`. `UPzHeadMachineTextStatus` uses its own `EditorData` map, resolves configured animation/text and handles dynamic text context.
 

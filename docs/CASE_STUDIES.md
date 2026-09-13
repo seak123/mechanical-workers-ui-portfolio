@@ -48,6 +48,10 @@ The ordering fix made carried-item refresh read the current job. The head-UI mec
 
 This does not mean an icon-only update or zero animation work: the actual tips path invokes `RefreshStyle`, which includes style and animation logic. Nor is it evidence of a measured frame-rate improvement. [Actual state/payload and lifecycle paths](CODE_TOUR.md#3-head-ui-state-and-lifecycle).
 
+## Design decision: extend the shared workflow instead of multiplying interfaces
+
+Different work types followed a common behaviour contract. I used that as the reuse boundary: task/ability signals determine the kind of feedback, while work-specific data and presentation configuration determine the content. The same head interface can explain different jobs without directly coupling each task to a separate widget. [Full decision story and code boundaries](DECISIONS.md).
+
 <a id="observe-before-guessing"></a>
 ## 3. Observe the chain before changing it
 
